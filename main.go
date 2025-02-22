@@ -13,7 +13,7 @@ var vendor string = os.Getenv("__LLM_MAIN_ENTRY_VENDOR")
 func main() {
 	prompt := getPrompt()
 	fmt.Println("vendor:", vendor)
-    fmt.Println("prompt:", prompt)
+	fmt.Println("prompt:", prompt)
 
 	if vendor == "openai" {
 		openai()
@@ -29,6 +29,7 @@ func getPrompt() string {
 		fmt.Println("Error: Please provide a prompt")
 		os.Exit(1)
 	}
+
 	// get first "actual" arg from cli
 	var prompt string = os.Args[1]
 
