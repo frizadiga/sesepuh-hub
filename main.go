@@ -16,11 +16,11 @@ func main() {
 	fmt.Println("prompt:", prompt)
 
 	if vendor == "openai" {
-		openai()
+		ModOpenAI(prompt)
 	}
 
 	if vendor == "ollama" {
-		ollama()
+		ModOllama(prompt)
 	}
 }
 
@@ -39,14 +39,4 @@ func getPrompt() string {
 	// }
 
 	return prompt
-}
-
-func openai() {
-	println("-> openai")
-	println("vendor:", vendor)
-}
-
-func ollama() {
-	println("-> ollama")
-	println("vendor:", vendor)
 }
