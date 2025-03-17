@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"os"
-	// "log"
-	// "net/http"
 )
 
 // read shell env __LLM_MAIN_ENTRY_VENDOR
@@ -12,8 +10,12 @@ var vendor string = os.Getenv("__LLM_MAIN_ENTRY_VENDOR")
 
 func main() {
 	prompt := getPrompt()
-	fmt.Println("vendor:", vendor)
-	fmt.Println("prompt:", prompt)
+	mockRole := "🧙 Sesepuh GPT"
+	fmt.Println(mockRole)
+
+	// @NOTE: keep it here for debugging
+	// fmt.Println("[DEBUG] vendor:", vendor)
+	// fmt.Println("[DEBUG] prompt:", prompt)
 
 	if vendor == "openai" {
 		ModOpenAI(prompt)
@@ -30,9 +32,9 @@ func getPrompt() string {
 		os.Exit(1)
 	}
 
-	// get first "actual" arg from cli
 	var prompt string = os.Args[1]
 
+	// @NOTE: keep it here for debugging
 	// print all args
 	// for i, arg := range os.Args {
 	// 	fmt.Println(i, arg)

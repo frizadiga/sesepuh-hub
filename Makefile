@@ -3,6 +3,7 @@
 BINARY_NAME=sesepuh-gpt
 # ARGS=""
 # ARGS="eli5 general relativity"
+# ARGS="write me 50 words haiku"
 ARGS="what model you currently use"
 
 build:
