@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+var __OPENAI_MODEL = getEnv("__OPENAI_MODEL", "o3-mini")
+
 func getModelToUse() string {
 	const DEF_MODEL = "o3-mini"
 	modelName := DEF_MODEL
@@ -19,7 +21,7 @@ func getModelToUse() string {
 	return modelName
 }
 
-func getEnvWithDefault(key, defaultValue string) string {
+func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
 
 	if value == "" {
@@ -29,11 +31,9 @@ func getEnvWithDefault(key, defaultValue string) string {
 	return value
 }
 
-var __OPENAI_MODEL string = getEnvWithDefault("OPENAI_MODEL", "o3-mini")
-
 func ModOpenAI(prompt string) {
 	fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
-	isSesepuhNeedStream := getEnvWithDefault("SESEPUH_NEED_STREAM", "0")
+	isSesepuhNeedStream := getEnv("SESEPUH_NEED_STREAM", "0")
 
 	if isSesepuhNeedStream == "1" {
 		ModOpenAIStream(prompt)
@@ -44,7 +44,7 @@ func ModOpenAI(prompt string) {
 
 func ModOpenAISync(prompt string) {
 	// openai
-	openaiAPIKey := getEnvWithDefault("OPENAI_API_KEY", "")
+	openaiAPIKey := getEnv("OPENAI_API_KEY", "")
 
 	client := openai.NewClient(
 		option.WithAPIKey(openaiAPIKey), // defaults to os.LookupEnv("OPENAI_API_KEY")
