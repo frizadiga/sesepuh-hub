@@ -3,16 +3,22 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/openai/openai-go"
+	"github.com/openai/openai-go/option"
 )
 
-var __OPENAI_MODEL string = GetEnvWithDefault("__OPENAI_MODEL", "gpt-4o-mini")
+var OPENAI_API_KEY = os.Getenv("OPENAI_API_KEY")
+var __OPENAI_MODEL string = GetEnv("__OPENAI_MODEL", "gpt-4o-mini")
 
-var client = openai.NewClient()
+var clientOpenAI = openai.NewClient(
+	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")
+)
 
 func ModOpenAI(prompt string) {
 	fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
-	isSesepuhNeedStream := GetEnvWithDefault("SESEPUH_NEED_STREAM", "0")
+	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
 
 	if isSesepuhNeedStream == "1" {
 		ModOpenAIStream(prompt)
@@ -22,7 +28,7 @@ func ModOpenAI(prompt string) {
 }
 
 func ModOpenAISync(prompt string) {
-	chatCompletion, err := client.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
+	chatCompletion, err := clientOpenAI.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(prompt),
 		},
@@ -38,7 +44,7 @@ func ModOpenAISync(prompt string) {
 
 func ModOpenAIStream(prompt string) {
 	ctx := context.Background()
-	stream := client.Chat.Completions.NewStreaming(ctx, openai.ChatCompletionNewParams{
+	stream := clientOpenAI.Chat.Completions.NewStreaming(ctx, openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(prompt),
 		},

@@ -26,6 +26,10 @@ func main() {
 	if vendor == "ollama" {
 		ModOllama(prompt)
 	}
+
+	if vendor == "anthropic" {
+		ModAnthropic(prompt)
+	}
 }
 
 func getPrompt() string {

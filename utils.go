@@ -13,8 +13,8 @@ func GetModelToUse(envVarName, defaultModel string) string {
 	return modelName
 }
 
-// GetEnvWithDefault returns environment variable value or default if not set
-func GetEnvWithDefault(key, defaultValue string) string {
+// GetEnv returns environment variable value or default if not set
+func GetEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
 
 	if value == "" {
