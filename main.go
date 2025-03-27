@@ -11,7 +11,9 @@ var vendor string = os.Getenv("__LLM_MAIN_ENTRY_VENDOR")
 func main() {
 	prompt := getPrompt()
 	mockRole := "🧙 Sesepuh GPT"
-	fmt.Println(mockRole)
+	if os.Getenv("LLM_RES_ONLY") != "1" {
+		fmt.Println(mockRole)
+	}
 
 	// @NOTE: keep it here for debugging
 	// fmt.Println("[DEBUG] vendor:", vendor)

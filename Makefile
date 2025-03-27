@@ -6,8 +6,17 @@ BINARY_NAME=sesepuh-gpt
 # ARGS="write me 50 words haiku"
 ARGS="what model you currently use"
 
-build:
-	go build -o $(BINARY_NAME) .
+install:
+	go mod download
+
+update:
+	go get -u
+
+tidy:
+	go mod tidy
+
+dev:
+	go run -v . $(ARGS)
 
 run:
 	./$(BINARY_NAME) $(ARGS)
@@ -16,8 +25,8 @@ clean:
 	go clean
 	rm -f $(BINARY_NAME)
 
-dev:
-	go run -v . $(ARGS)
+build:
+	go build -o $(BINARY_NAME) .
 
 ollama:
 	__LLM_MAIN_ENTRY_VENDOR=ollama go run . $(ARGS)
