@@ -3,7 +3,7 @@ CLI proxy to talk to Large Language Models (LLMs) like ChatGPT, Claude, and othe
 
 ## Installation
 ```bash
-git clone <this-repo>
+git clone https://github.com/frizadiga/sesepuh-hub.git
 cd sesepuh-hub
 make install
 make build
