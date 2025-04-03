@@ -47,8 +47,6 @@ func ModAnthropicSync(prompt string) {
 }
 
 func ModAnthropicStream(prompt string) {
-	// content := "What is a quaternion?"
-
 	stream := clientAnthropic.Messages.NewStreaming(context.TODO(), anthropic.MessageNewParams{
 		Model: __ANTHROPIC_MODEL,
 		// Model:     anthropic.ModelClaude3_7SonnetLatest,

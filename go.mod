@@ -1,4 +1,4 @@
-module sesepuh-gpt
+module sesepuh-hub
 
 go 1.24.0
 

@@ -10,7 +10,7 @@ import (
 )
 
 var OPENAI_API_KEY = os.Getenv("OPENAI_API_KEY")
-var __OPENAI_MODEL string = GetEnv("__OPENAI_MODEL", "gpt-4o-mini")
+var __OPENAI_MODEL = GetEnv("__OPENAI_MODEL", "gpt-4o-mini")
 
 var clientOpenAI = openai.NewClient(
 	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")
@@ -32,7 +32,8 @@ func ModOpenAISync(prompt string) {
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(prompt),
 		},
-		Model: openai.ChatModelGPT4o,
+		Model: __OPENAI_MODEL,
+		// Model: openai.ChatModelGPT4o,
 	})
 
 	if err != nil {
@@ -49,7 +50,8 @@ func ModOpenAIStream(prompt string) {
 			openai.UserMessage(prompt),
 		},
 		Seed:  openai.Int(0),
-		Model: openai.ChatModelGPT4o,
+		Model: __OPENAI_MODEL,
+		// Model: openai.ChatModelGPT4o,
 	})
 
 	// optionally, an accumulator helper can be used

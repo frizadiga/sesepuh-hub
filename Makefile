@@ -1,10 +1,10 @@
-.PHONY: build run clean
+.PHONY: install update tidy dev run clean build ollama openai
 
-BINARY_NAME=sesepuh-gpt
-# ARGS=""
-# ARGS="eli5 general relativity"
-# ARGS="write me 50 words haiku"
-ARGS="what model you currently use"
+BINARY_NAME=sesepuh-hub
+# PROMPT=""
+# PROMPT="eli5 general relativity"
+# PROMPT="write me 50 words haiku"
+PROMPT="what model you currently use"
 
 install:
 	go mod download
@@ -16,10 +16,10 @@ tidy:
 	go mod tidy
 
 dev:
-	go run -v . $(ARGS)
+	go run -v . --prompt $(PROMPT)
 
 run:
-	./$(BINARY_NAME) $(ARGS)
+	./$(BINARY_NAME) $(PROMPT)
 
 clean:
 	go clean
@@ -29,7 +29,7 @@ build:
 	go build -o $(BINARY_NAME) .
 
 ollama:
-	__LLM_MAIN_ENTRY_VENDOR=ollama go run . $(ARGS)
+	__LLM_MAIN_ENTRY_VENDOR=ollama go run . $(PROMPT)
 
 openai:
-	__LLM_MAIN_ENTRY_VENDOR=openai go run . $(ARGS)
+	__LLM_MAIN_ENTRY_VENDOR=openai go run . $(PROMPT)
