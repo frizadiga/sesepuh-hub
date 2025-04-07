@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	// @NOTE: yes xAI use openai
+	// @NOTE: yes xAI use openai interface
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
 )
@@ -20,7 +20,10 @@ var clientXAI = openai.NewClient(
 )
 
 func ModXAI(prompt string) {
-	fmt.Printf("\nXAI model: %s\n\n", __XAI_MODEL)
+	if os.Getenv("LLM_RES_ONLY") != "1" {
+		fmt.Printf("\nXAI model: %s\n\n", __XAI_MODEL)
+	}
+
 	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
 
 	if isSesepuhNeedStream == "1" {
@@ -43,7 +46,7 @@ func ModXAISync(prompt string) {
 		panic(err.Error())
 	}
 
-	println(chatCompletion.Choices[0].Message.Content)
+	fmt.Println(chatCompletion.Choices[0].Message.Content)
 }
 
 func ModXAIStream(prompt string) {
@@ -65,22 +68,21 @@ func ModXAIStream(prompt string) {
 		acc.AddChunk(chunk)
 
 		if _, ok := acc.JustFinishedContent(); ok {
-			println() // newline after last stream chunk
-			// println("Content stream finished:", content)
+			fmt.Println() // newline after last stream chunk
 		}
 
 		// if using tool calls
 		if tool, ok := acc.JustFinishedToolCall(); ok {
-			println("Tool call stream finished:", tool.Index, tool.Name, tool.Arguments)
+			fmt.Println("Tool call stream finished:", tool.Index, tool.Name, tool.Arguments)
 		}
 
 		if refusal, ok := acc.JustFinishedRefusal(); ok {
-			println("Refusal stream finished:", refusal)
+			fmt.Println("Refusal stream finished:", refusal)
 		}
 
 		// it's best to use chunks after handling JustFinished events
 		if len(chunk.Choices) > 0 {
-			print(chunk.Choices[0].Delta.Content)
+			fmt.Print(chunk.Choices[0].Delta.Content)
 		}
 	}
 

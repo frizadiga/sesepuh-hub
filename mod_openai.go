@@ -17,7 +17,10 @@ var clientOpenAI = openai.NewClient(
 )
 
 func ModOpenAI(prompt string) {
-	fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
+	if os.Getenv("LLM_RES_ONLY") != "1" {
+		fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
+	}
+
 	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
 
 	if isSesepuhNeedStream == "1" {
@@ -40,7 +43,8 @@ func ModOpenAISync(prompt string) {
 		panic(err.Error())
 	}
 
-	println(chatCompletion.Choices[0].Message.Content)
+	// @NOTE: `fmt.Println` ensure write to stdout not stderr, so bash `$()` and other CLI pipe can capture
+	fmt.Println(chatCompletion.Choices[0].Message.Content)
 }
 
 func ModOpenAIStream(prompt string) {
@@ -51,7 +55,7 @@ func ModOpenAIStream(prompt string) {
 		},
 		Seed:  openai.Int(0),
 		Model: __OPENAI_MODEL,
-		// Model: openai.ChatModelGPT4o,
+		// NOTE: default Model: openai.ChatModelGPT4o,
 	})
 
 	// optionally, an accumulator helper can be used
@@ -62,22 +66,22 @@ func ModOpenAIStream(prompt string) {
 		acc.AddChunk(chunk)
 
 		if _, ok := acc.JustFinishedContent(); ok {
-			println() // newline after last stream chunk
-			// println("Content stream finished:", content)
+			fmt.Println() // newline after last stream chunk
 		}
 
 		// if using tool calls
 		if tool, ok := acc.JustFinishedToolCall(); ok {
-			println("Tool call stream finished:", tool.Index, tool.Name, tool.Arguments)
+			fmt.Println("Tool call stream finished:", tool.Index, tool.Name, tool.Arguments)
 		}
 
 		if refusal, ok := acc.JustFinishedRefusal(); ok {
-			println("Refusal stream finished:", refusal)
+			fmt.Println("Refusal stream finished:", refusal)
 		}
 
 		// it's best to use chunks after handling JustFinished events
 		if len(chunk.Choices) > 0 {
-			print(chunk.Choices[0].Delta.Content)
+			// @NOTE: `fmt.Print` ensure write to stdout not stderr, so bash `$()` and other CLI pipe can capture
+			fmt.Print(chunk.Choices[0].Delta.Content)
 		}
 	}
 

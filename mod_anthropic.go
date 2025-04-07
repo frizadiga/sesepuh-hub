@@ -79,5 +79,5 @@ func ModAnthropicStream(prompt string) {
 		}
 	}
 
-	println() // add newline after the stream ends
+	fmt.Println() // add newline after the stream ends
 }
