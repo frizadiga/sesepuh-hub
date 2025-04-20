@@ -35,6 +35,10 @@ func main() {
 	if vendor == "xai" {
 		ModXAI(prompt)
 	}
+
+	if vendor == "google" {
+		ModGoogle(prompt)
+	}
 }
 
 func getPromptFlag() string {
