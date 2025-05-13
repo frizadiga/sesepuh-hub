@@ -26,3 +26,6 @@ go.work.sum
 
 # the output binary
 sesepuh-hub
+
+# MacOS
+.DS_Store
