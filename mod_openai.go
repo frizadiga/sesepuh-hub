@@ -16,7 +16,7 @@ var clientOpenAI = openai.NewClient(
 	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")
 )
 
-func ModOpenAI(prompt string) {
+func ModOpenAI(prompt *string) {
 	if os.Getenv("LLM_RES_ONLY") != "1" {
 		fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
 	}
@@ -30,10 +30,10 @@ func ModOpenAI(prompt string) {
 	}
 }
 
-func ModOpenAISync(prompt string) {
+func ModOpenAISync(prompt *string) {
 	chatCompletion, err := clientOpenAI.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
-			openai.UserMessage(prompt),
+			openai.UserMessage(*prompt),
 		},
 		Model: __OPENAI_MODEL,
 		// Model: openai.ChatModelGPT4o,
@@ -47,11 +47,11 @@ func ModOpenAISync(prompt string) {
 	fmt.Println(chatCompletion.Choices[0].Message.Content)
 }
 
-func ModOpenAIStream(prompt string) {
+func ModOpenAIStream(prompt *string) {
 	ctx := context.Background()
 	stream := clientOpenAI.Chat.Completions.NewStreaming(ctx, openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
-			openai.UserMessage(prompt),
+			openai.UserMessage(*prompt),
 		},
 		Seed:  openai.Int(0),
 		Model: __OPENAI_MODEL,

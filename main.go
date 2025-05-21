@@ -21,7 +21,7 @@ func main() {
 	// fmt.Println("[DEBUG] prompt:", prompt)
 
 	if vendor == "openai" {
-		ModOpenAI(prompt)
+		ModOpenAI(&prompt)
 	}
 
 	if vendor == "ollama" {

@@ -19,7 +19,7 @@ dev:
 	go run -v . --prompt $(PROMPT)
 
 run:
-	./$(BINARY_NAME) $(PROMPT)
+	./$(BINARY_NAME) --prompt $(PROMPT)
 
 clean:
 	go clean
