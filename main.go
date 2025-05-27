@@ -25,19 +25,19 @@ func main() {
 	}
 
 	if vendor == "ollama" {
-		ModOllama(prompt)
+		ModOllama(&prompt)
 	}
 
 	if vendor == "anthropic" {
-		ModAnthropic(prompt)
+		ModAnthropic(&prompt)
 	}
 
 	if vendor == "xai" {
-		ModXAI(prompt)
+		ModXAI(&prompt)
 	}
 
 	if vendor == "google" {
-		ModGoogle(prompt)
+		ModGoogle(&prompt)
 	}
 }
 

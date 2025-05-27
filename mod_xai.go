@@ -19,7 +19,7 @@ var clientXAI = openai.NewClient(
 	option.WithBaseURL("https://api.x.ai/v1"),
 )
 
-func ModXAI(prompt string) {
+func ModXAI(prompt *string) {
 	if os.Getenv("LLM_RES_ONLY") != "1" {
 		fmt.Printf("\nXAI model: %s\n\n", __XAI_MODEL)
 	}
@@ -33,10 +33,10 @@ func ModXAI(prompt string) {
 	}
 }
 
-func ModXAISync(prompt string) {
+func ModXAISync(prompt *string) {
 	chatCompletion, err := clientXAI.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
-			openai.UserMessage(prompt),
+			openai.UserMessage(*prompt),
 		},
 		Model: __XAI_MODEL,
 		// Model: openai.ChatModelGPT4o,
@@ -49,11 +49,11 @@ func ModXAISync(prompt string) {
 	fmt.Println(chatCompletion.Choices[0].Message.Content)
 }
 
-func ModXAIStream(prompt string) {
+func ModXAIStream(prompt *string) {
 	ctx := context.Background()
 	stream := clientXAI.Chat.Completions.NewStreaming(ctx, openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{
-			openai.UserMessage(prompt),
+			openai.UserMessage(*prompt),
 		},
 		Seed:  openai.Int(1),
 		Model: __XAI_MODEL,

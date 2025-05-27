@@ -14,7 +14,7 @@ import (
 var GEMINI_API_KEY = os.Getenv("GEMINI_API_KEY")
 var __GOOGLE_MODEL = GetEnv("__GOOGLE_MODEL", "gemini-2.0-flash")
 
-func ModGoogle(prompt string) {
+func ModGoogle(prompt *string) {
 	if os.Getenv("LLM_RES_ONLY") != "1" {
 		fmt.Printf("\nGoogle model: %s\n\n", __GOOGLE_MODEL)
 	}
@@ -28,7 +28,7 @@ func ModGoogle(prompt string) {
 	}
 }
 
-func ModGoogleSync(prompt string) {
+func ModGoogleSync(prompt *string) {
 	// fmt.Println("[DEBUG] ModGoogleSync", prompt)
 
 	ctx := context.Background()
@@ -42,7 +42,7 @@ func ModGoogleSync(prompt string) {
 	defer client.Close()
 
 	model := client.GenerativeModel(__GOOGLE_MODEL)
-	resp, err := model.GenerateContent(ctx, genai.Text(prompt))
+	resp, err := model.GenerateContent(ctx, genai.Text(*prompt))
 
 	if err != nil {
 		log.Fatal(err)
@@ -57,7 +57,7 @@ func ModGoogleSync(prompt string) {
 	}
 }
 
-func ModGoogleStream(prompt string) {
+func ModGoogleStream(prompt *string) {
 	// fmt.Println("[DEBUG] ModGoogleStream", prompt)
 
 	ctx := context.Background()
@@ -71,7 +71,7 @@ func ModGoogleStream(prompt string) {
 
 	model := client.GenerativeModel(__GOOGLE_MODEL)
 
-	finalPrompt := genai.Text(prompt)
+	finalPrompt := genai.Text(*prompt)
 	iter := model.GenerateContentStream(ctx, finalPrompt)
 
 	for {

@@ -5,9 +5,9 @@ import (
 	"os/exec"
 )
 
-func ModOllama(prompt string) error {
+func ModOllama(prompt *string) error {
 	final_model := "deepseek-coder"
-	cmd := exec.Command("ollama", "run", final_model, prompt)
+	cmd := exec.Command("ollama", "run", final_model, *prompt)
 
 	output, err := cmd.Output()
 	if err != nil {

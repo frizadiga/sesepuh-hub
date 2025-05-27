@@ -18,7 +18,7 @@ tidy:
 dev:
 	go run -v . --prompt $(PROMPT)
 
-run:
+start:
 	./$(BINARY_NAME) --prompt $(PROMPT)
 
 clean:
@@ -29,7 +29,17 @@ build:
 	go build -o $(BINARY_NAME) .
 
 ollama:
-	__LLM_MAIN_ENTRY_VENDOR=ollama go run . $(PROMPT)
+	__LLM_MAIN_ENTRY_VENDOR=ollama go run . --prompt $(PROMPT)
 
 openai:
-	__LLM_MAIN_ENTRY_VENDOR=openai go run . $(PROMPT)
+	__LLM_MAIN_ENTRY_VENDOR=openai go run . --prompt $(PROMPT)
+
+gemini:
+	__LLM_MAIN_ENTRY_VENDOR=google go run . --prompt $(PROMPT)
+
+xai:
+	__LLM_MAIN_ENTRY_VENDOR=xai go run . --prompt $(PROMPT)
+
+claude:
+	__LLM_MAIN_ENTRY_VENDOR=anthropic go run . --prompt $(PROMPT)
+
