@@ -2,10 +2,15 @@ name: Cross-Platform Build
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
     tags: [ 'v*' ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
+
+# Add permissions for the workflow
+permissions:
+  contents: write  # Required: to create releases
+  packages: write  # Optional: To publish packages
 
 jobs:
   build:
@@ -41,7 +46,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.21'  # Adjust to your Go version
+        go-version: '1.24'
         check-latest: true
 
     - name: Cache Go modules
@@ -103,7 +108,7 @@ jobs:
         cat checksums.txt
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: |
           release/*
@@ -117,7 +122,7 @@ jobs:
   build-with-cgo:
     name: Build with CGO (if needed)
     runs-on: ${{ matrix.os }}
-    if: false  # Set to true if you need CGO builds
+    if: false  # Set to true to run CGO builds
     strategy:
       matrix:
         include:
