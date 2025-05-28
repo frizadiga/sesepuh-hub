@@ -5,9 +5,10 @@ import (
 	"os/exec"
 )
 
+var __OLLAMA_MODEL = GetEnv("__OLLAMA_MODEL", "deepseek-coder")
+
 func ModOllama(prompt *string) error {
-	final_model := "deepseek-coder"
-	cmd := exec.Command("ollama", "run", final_model, *prompt)
+	cmd := exec.Command("ollama", "run", __OLLAMA_MODEL, *prompt)
 
 	output, err := cmd.Output()
 	if err != nil {
