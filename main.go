@@ -39,6 +39,10 @@ func main() {
 	if vendor == "google" {
 		ModGoogle(&prompt)
 	}
+
+	if vendor == "mistral" {
+		ModMistral(&prompt)
+	}
 }
 
 func getPromptFlag() string {

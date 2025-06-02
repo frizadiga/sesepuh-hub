@@ -43,3 +43,5 @@ xai:
 claude:
 	__LLM_MAIN_ENTRY_VENDOR=anthropic go run . --prompt $(PROMPT)
 
+mistral:
+	__LLM_MAIN_ENTRY_VENDOR=mistral go run . --prompt $(PROMPT)
