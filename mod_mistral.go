@@ -94,6 +94,7 @@ func ModMistralStream(prompt *string) {
 			continue
 		}
 
+		// Remove the "data: " prefix and trim whitespace
 		payload := line[6:]
 		if payload == "[DONE]\n" || payload == "[DONE]" {
 			fmt.Println()
