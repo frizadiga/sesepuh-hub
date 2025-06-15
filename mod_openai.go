@@ -10,7 +10,7 @@ import (
 )
 
 var OPENAI_API_KEY = os.Getenv("OPENAI_API_KEY")
-var __OPENAI_MODEL = GetEnv("__OPENAI_MODEL", "gpt-4o-mini")
+var __OPENAI_MODEL = GetModelToUse("__OPENAI_MODEL", "gpt-4o-mini")
 
 var clientOpenAI = openai.NewClient(
 	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")

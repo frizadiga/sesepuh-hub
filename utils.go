@@ -6,6 +6,11 @@ import "os"
 func GetModelToUse(envVarName, defaultModel string) string {
 	modelName := defaultModel
 
+	if envModel := os.Getenv("SESEPUH_HUB_MODEL"); envModel != "" {
+		modelName = envModel
+		return modelName
+	}
+
 	if envModel := os.Getenv(envVarName); envModel != "" {
 		modelName = envModel
 	}
