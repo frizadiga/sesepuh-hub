@@ -2,7 +2,6 @@
 # alias: 'n/a'
 # desc: fn_sesepuh_hub description.
 # usage: fn_sesepuh_hub.sh [args]
-# flags: @WIP:1 @TODO:0 @FIXME:0 @BUG:0 @OPTIMIZE:0 @REFACTOR:0 @DEPRECATED:0
 
 set -e -u -o pipefail
 # set -x # uncomment to debug

@@ -1,0 +1,10 @@
+# LLM Models list
+models:
+  - name: gpt-4o-mini
+    vendor: openai
+  - name: gpt-4o
+    vendor: openai
+  - name: claude-sonnet-4-20250514 
+    vendor: anthropic
+  - name: gemini-2.0-flash
+    vendor: google
