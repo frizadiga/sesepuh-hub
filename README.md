@@ -76,12 +76,10 @@ make dev PROMPT="your prompt here"
 
 You can also run with specific vendors:
 ```bash
-make ollama PROMPT="your prompt here"
-make openai PROMPT="your prompt here"
-make gemini PROMPT="your prompt here"
-make mistral PROMPT="your prompt here"
-make claude PROMPT="your prompt here"
-make xai PROMPT="your prompt here"
+make <vendor> PROMPT="your prompt here"
+
+# Example:
+make openai PROMPT="arm arch in a nutshell"
 ```
 
 ## License
