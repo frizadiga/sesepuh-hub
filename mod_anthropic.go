@@ -10,7 +10,7 @@ import (
 )
 
 var ANTHROPIC_API_KEY = os.Getenv("ANTHROPIC_API_KEY")
-var __ANTHROPIC_MODEL = GetEnv("__ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
+var __ANTHROPIC_MODEL = GetModelToUse("__ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
 
 var clientAnthropic = anthropic.NewClient(
 	option.WithAPIKey(ANTHROPIC_API_KEY), // defaults to os.LookupEnv("ANTHROPIC_API_KEY")

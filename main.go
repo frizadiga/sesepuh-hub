@@ -12,7 +12,7 @@ var vendor string = os.Getenv("SESEPUH_HUB_VENDOR")
 func main() {
 	prompt := getPromptFlag()
 	mockRole := "🧙 Sesepuh Hub"
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Println(mockRole)
 	}
 

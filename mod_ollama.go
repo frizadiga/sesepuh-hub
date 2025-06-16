@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-var __OLLAMA_MODEL = GetEnv("__OLLAMA_MODEL", "deepseek-coder")
+var __OLLAMA_MODEL = GetModelToUse("__OLLAMA_MODEL", "deepseek-coder")
 
 func ModOllama(prompt *string) {
 	cmd := exec.Command("ollama", "run", __OLLAMA_MODEL, *prompt)

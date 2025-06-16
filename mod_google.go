@@ -15,7 +15,7 @@ var GEMINI_API_KEY = os.Getenv("GEMINI_API_KEY")
 var __GOOGLE_MODEL = GetModelToUse("__GOOGLE_MODEL", "gemini-2.0-flash")
 
 func ModGoogle(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Printf("\nGoogle model: %s\n\n", __GOOGLE_MODEL)
 	}
 

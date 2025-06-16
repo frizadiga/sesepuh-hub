@@ -1,10 +1,30 @@
-# LLM Models list
 models:
-  - name: gpt-4o-mini
-    vendor: openai
   - name: gpt-4o
     vendor: openai
-  - name: claude-sonnet-4-20250514 
+
+  - name: gpt-4o-mini
+    vendor: openai
+
+  - name: gpt-3.5-turbo
+    vendor: openai
+
+  - name: claude-sonnet-4-20250514
     vendor: anthropic
+
+  - name: claude-3-5-sonnet-20241022
+    vendor: anthropic
+
+  - name: claude-3-7-sonnet-20250219
+    vendor: anthropic
+
   - name: gemini-2.0-flash
     vendor: google
+
+  - name: mistral-small-latest
+    vendor: mistral
+
+  - name: grok-2-latest
+    vendor: xai
+
+  - name: deepseek-coder
+    vendor: ollama # Don't confuse: sesepuh vendor is the engine that runs the model, not the entity that created it.

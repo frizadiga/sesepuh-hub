@@ -11,10 +11,10 @@ import (
 )
 
 var MISTRAL_API_KEY = os.Getenv("MISTRAL_API_KEY")
-var __MISTRAL_MODEL = GetEnv("__MISTRAL_MODEL", "mistral-small-latest")
+var __MISTRAL_MODEL = GetModelToUse("__MISTRAL_MODEL", "mistral-small-latest")
 
 func ModMistral(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Printf("\nMistral model: %s\n\n", __MISTRAL_MODEL)
 	}
 

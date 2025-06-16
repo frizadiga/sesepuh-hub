@@ -12,7 +12,7 @@ import (
 
 var XAI_API_KEY = os.Getenv("XAI_API_KEY")
 // model: "grok-2-latest",
-var __XAI_MODEL = GetEnv("__XAI_MODEL", "grok-2-latest")
+var __XAI_MODEL = GetModelToUse("__XAI_MODEL", "grok-2-latest")
 
 var clientXAI = openai.NewClient(
 	option.WithAPIKey(XAI_API_KEY),
@@ -20,7 +20,7 @@ var clientXAI = openai.NewClient(
 )
 
 func ModXAI(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Printf("\nXAI model: %s\n\n", __XAI_MODEL)
 	}
 

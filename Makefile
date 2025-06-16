@@ -28,22 +28,25 @@ clean:
 build:
 	go build -o $(BINARY_NAME) .
 
+release:
+	go build -o $(BINARY_NAME) -ldflags="-s -w" .
+
 ollama:
-	SESEPUH_HUB_VENDOR=ollama go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=ollama SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 openai:
-	SESEPUH_HUB_VENDOR=openai go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=openai SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 gemini:
-	SESEPUH_HUB_VENDOR=google go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=google SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 xai:
-	SESEPUH_HUB_VENDOR=xai go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=xai SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 claude:
-	SESEPUH_HUB_VENDOR=anthropic go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=anthropic SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 mistral:
-	SESEPUH_HUB_VENDOR=mistral go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=mistral SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
-.PHONY: install update tidy dev run clean build ollama openai gemini xai claude mistral
+.PHONY: all install update tidy dev start clean build release ollama openai gemini xai claude mistral

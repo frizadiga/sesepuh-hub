@@ -17,7 +17,7 @@ var clientOpenAI = openai.NewClient(
 )
 
 func ModOpenAI(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
 	}
 
