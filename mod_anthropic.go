@@ -10,14 +10,14 @@ import (
 )
 
 var ANTHROPIC_API_KEY = os.Getenv("ANTHROPIC_API_KEY")
-var __ANTHROPIC_MODEL = GetModelToUse("__ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
+var ANTHROPIC_MODEL = GetModelToUse("ANTHROPIC_MODEL", "claude-sonnet-4-20250514")
 
 var clientAnthropic = anthropic.NewClient(
 	option.WithAPIKey(ANTHROPIC_API_KEY), // defaults to os.LookupEnv("ANTHROPIC_API_KEY")
 )
 
 func ModAnthropic(prompt *string) {
-	fmt.Printf("\nAnthropic model: %s\n\n", __ANTHROPIC_MODEL)
+	fmt.Printf("\nAnthropic model: %s\n\n", ANTHROPIC_MODEL)
 	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
 
 	if isSesepuhNeedStream == "1" {
@@ -35,8 +35,7 @@ func ModAnthropicSync(prompt *string) {
 				OfRequestTextBlock: &anthropic.TextBlockParam{Text: *prompt},
 			}},
 		}},
-		Model: __ANTHROPIC_MODEL,
-		// Model: anthropic.ModelClaude3_7SonnetLatest,
+		Model: ANTHROPIC_MODEL,
 	})
 
 	if err != nil {
@@ -48,8 +47,7 @@ func ModAnthropicSync(prompt *string) {
 
 func ModAnthropicStream(prompt *string) {
 	stream := clientAnthropic.Messages.NewStreaming(context.TODO(), anthropic.MessageNewParams{
-		Model: __ANTHROPIC_MODEL,
-		// Model:     anthropic.ModelClaude3_7SonnetLatest,
+		Model: ANTHROPIC_MODEL,
 		MaxTokens: 1024,
 		Messages: []anthropic.MessageParam{
 			anthropic.NewUserMessage(anthropic.NewTextBlock(*prompt)),

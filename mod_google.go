@@ -12,11 +12,11 @@ import (
 )
 
 var GEMINI_API_KEY = os.Getenv("GEMINI_API_KEY")
-var __GOOGLE_MODEL = GetModelToUse("__GOOGLE_MODEL", "gemini-2.0-flash")
+var GOOGLE_MODEL = GetModelToUse("GOOGLE_MODEL", "gemini-2.0-flash")
 
 func ModGoogle(prompt *string) {
 	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
-		fmt.Printf("\nGoogle model: %s\n\n", __GOOGLE_MODEL)
+		fmt.Printf("\nGoogle model: %s\n\n", GOOGLE_MODEL)
 	}
 
 	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
@@ -29,8 +29,6 @@ func ModGoogle(prompt *string) {
 }
 
 func ModGoogleSync(prompt *string) {
-	// fmt.Println("[DEBUG] ModGoogleSync", prompt)
-
 	ctx := context.Background()
 
 	client, err := genai.NewClient(ctx, option.WithAPIKey(GEMINI_API_KEY))
@@ -41,7 +39,7 @@ func ModGoogleSync(prompt *string) {
 
 	defer client.Close()
 
-	model := client.GenerativeModel(__GOOGLE_MODEL)
+	model := client.GenerativeModel(GOOGLE_MODEL)
 	resp, err := model.GenerateContent(ctx, genai.Text(*prompt))
 
 	if err != nil {
@@ -58,8 +56,6 @@ func ModGoogleSync(prompt *string) {
 }
 
 func ModGoogleStream(prompt *string) {
-	// fmt.Println("[DEBUG] ModGoogleStream", prompt)
-
 	ctx := context.Background()
 	client, err := genai.NewClient(ctx, option.WithAPIKey(GEMINI_API_KEY))
 
@@ -69,7 +65,7 @@ func ModGoogleStream(prompt *string) {
 
 	defer client.Close()
 
-	model := client.GenerativeModel(__GOOGLE_MODEL)
+	model := client.GenerativeModel(GOOGLE_MODEL)
 
 	finalPrompt := genai.Text(*prompt)
 	iter := model.GenerateContentStream(ctx, finalPrompt)
