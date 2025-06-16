@@ -21,9 +21,9 @@ func ModOpenAI(prompt *string) {
 		fmt.Printf("\nOpenAI model: %s\n\n", OPENAI_MODEL)
 	}
 
-	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
+	isStreaming := GetEnv("SESEPUH_HUB_STREAMING", "0")
 
-	if isSesepuhNeedStream == "1" {
+	if isStreaming == "1" {
 		ModOpenAIStream(prompt)
 	} else {
 		ModOpenAISync(prompt)

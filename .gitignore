@@ -29,3 +29,6 @@ sesepuh-hub
 
 # MacOS
 .DS_Store
+
+# Textify generated file
+*.textify.txt
