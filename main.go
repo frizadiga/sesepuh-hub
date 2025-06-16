@@ -3,40 +3,32 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 )
 
-var vendor string = os.Getenv("__LLM_MAIN_ENTRY_VENDOR")
+var vendor string = os.Getenv("SESEPUH_HUB_VENDOR")
 
 func main() {
 	prompt := getPromptFlag()
 	mockRole := "🧙 Sesepuh Hub"
-	if os.Getenv("LLM_RES_ONLY") != "1" {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
 		fmt.Println(mockRole)
 	}
 
-	if vendor == "openai" {
-		ModOpenAI(&prompt)
+	vendorHandlers := map[string]func(*string){
+		"openai":    ModOpenAI,
+		"ollama":    ModOllama,
+		"anthropic": ModAnthropic,
+		"xai":       ModXAI,
+		"google":    ModGoogle,
+		"mistral":   ModMistral,
 	}
 
-	if vendor == "ollama" {
-		ModOllama(&prompt)
-	}
-
-	if vendor == "anthropic" {
-		ModAnthropic(&prompt)
-	}
-
-	if vendor == "xai" {
-		ModXAI(&prompt)
-	}
-
-	if vendor == "google" {
-		ModGoogle(&prompt)
-	}
-
-	if vendor == "mistral" {
-		ModMistral(&prompt)
+	if handler, exists := vendorHandlers[vendor]; exists {
+		handler(&prompt)
+	} else {
+		log.Fatalf("Error: Unknown vendor '%s'\n", vendor)
 	}
 }
 
@@ -45,9 +37,7 @@ func getPromptFlag() string {
 	flag.Parse()
 
 	if *promptFlag == "" {
-		fmt.Println("Error: Please provide a prompt using --prompt flag")
-		os.Exit(1)
+		log.Fatal("Error: Please provide a prompt using --prompt flag")
 	}
-
 	return *promptFlag
 }

@@ -11,16 +11,17 @@ import (
 )
 
 var MISTRAL_API_KEY = os.Getenv("MISTRAL_API_KEY")
-var __MISTRAL_MODEL = GetEnv("__MISTRAL_MODEL", "mistral-small-latest")
+var MISTRAL_MODEL = GetModelToUse("MISTRAL_MODEL", "mistral-small-latest")
+var MISTRAL_API_URL = GetEnv("MISTRAL_API_URL", "https://api.mistral.ai/v1/chat/completions")
 
 func ModMistral(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
-		fmt.Printf("\nMistral model: %s\n\n", __MISTRAL_MODEL)
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
+		fmt.Printf("\nMistral model: %s\n\n", MISTRAL_MODEL)
 	}
 
-	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
+	isStreaming := GetEnv("SESEPUH_HUB_STREAMING", "0")
 
-	if isSesepuhNeedStream == "1" {
+	if isStreaming == "1" {
 		ModMistralStream(prompt)
 	} else {
 		ModMistralSync(prompt)
@@ -29,14 +30,14 @@ func ModMistral(prompt *string) {
 
 func ModMistralSync(prompt *string) {
 	reqBody := map[string]any{
-		"model": __MISTRAL_MODEL,
+		"model": MISTRAL_MODEL,
 		"messages": []map[string]string{
 			{"role": "user", "content": *prompt},
 		},
 	}
 
 	body, _ := json.Marshal(reqBody)
-	req, _ := http.NewRequestWithContext(context.TODO(), "POST", "https://api.mistral.ai/v1/chat/completions", bytes.NewBuffer(body))
+	req, _ := http.NewRequestWithContext(context.TODO(), "POST", MISTRAL_API_URL, bytes.NewBuffer(body))
 	req.Header.Set("Authorization", "Bearer "+MISTRAL_API_KEY)
 	req.Header.Set("Content-Type", "application/json")
 
@@ -63,7 +64,7 @@ func ModMistralSync(prompt *string) {
 
 func ModMistralStream(prompt *string) {
 	reqBody := map[string]any{
-		"model":  __MISTRAL_MODEL,
+		"model":  MISTRAL_MODEL,
 		"stream": true,
 		"messages": []map[string]string{
 			{"role": "user", "content": *prompt},
@@ -71,7 +72,7 @@ func ModMistralStream(prompt *string) {
 	}
 
 	body, _ := json.Marshal(reqBody)
-	req, _ := http.NewRequestWithContext(context.TODO(), "POST", "https://api.mistral.ai/v1/chat/completions", bytes.NewBuffer(body))
+	req, _ := http.NewRequestWithContext(context.TODO(), "POST", MISTRAL_API_URL, bytes.NewBuffer(body))
 	req.Header.Set("Authorization", "Bearer "+MISTRAL_API_KEY)
 	req.Header.Set("Content-Type", "application/json")
 

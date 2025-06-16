@@ -1,10 +1,10 @@
-.PHONY: install update tidy dev run clean build ollama openai
-
 BINARY_NAME=sesepuh-hub
 # PROMPT=""
 # PROMPT="eli5 general relativity"
 # PROMPT="write me 50 words haiku"
 PROMPT="what model you currently use"
+
+all: dev
 
 install:
 	go mod download
@@ -28,20 +28,25 @@ clean:
 build:
 	go build -o $(BINARY_NAME) .
 
+release:
+	go build -o $(BINARY_NAME) -ldflags="-s -w" .
+
 ollama:
-	__LLM_MAIN_ENTRY_VENDOR=ollama go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=ollama SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 openai:
-	__LLM_MAIN_ENTRY_VENDOR=openai go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=openai SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 gemini:
-	__LLM_MAIN_ENTRY_VENDOR=google go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=google SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 xai:
-	__LLM_MAIN_ENTRY_VENDOR=xai go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=xai SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 claude:
-	__LLM_MAIN_ENTRY_VENDOR=anthropic go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=anthropic SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
 
 mistral:
-	__LLM_MAIN_ENTRY_VENDOR=mistral go run . --prompt $(PROMPT)
+	SESEPUH_HUB_VENDOR=mistral SESEPUH_HUB_MODEL='' go run . --prompt $(PROMPT)
+
+.PHONY: all install update tidy dev start clean build release ollama openai gemini xai claude mistral

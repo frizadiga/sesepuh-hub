@@ -10,20 +10,20 @@ import (
 )
 
 var OPENAI_API_KEY = os.Getenv("OPENAI_API_KEY")
-var __OPENAI_MODEL = GetEnv("__OPENAI_MODEL", "gpt-4o-mini")
+var OPENAI_MODEL = GetModelToUse("OPENAI_MODEL", "gpt-4o-mini")
 
 var clientOpenAI = openai.NewClient(
 	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")
 )
 
 func ModOpenAI(prompt *string) {
-	if os.Getenv("LLM_RES_ONLY") != "1" {
-		fmt.Printf("\nOpenAI model: %s\n\n", __OPENAI_MODEL)
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
+		fmt.Printf("\nOpenAI model: %s\n\n", OPENAI_MODEL)
 	}
 
-	isSesepuhNeedStream := GetEnv("SESEPUH_NEED_STREAM", "0")
+	isStreaming := GetEnv("SESEPUH_HUB_STREAMING", "0")
 
-	if isSesepuhNeedStream == "1" {
+	if isStreaming == "1" {
 		ModOpenAIStream(prompt)
 	} else {
 		ModOpenAISync(prompt)
@@ -35,8 +35,7 @@ func ModOpenAISync(prompt *string) {
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(*prompt),
 		},
-		Model: __OPENAI_MODEL,
-		// Model: openai.ChatModelGPT4o,
+		Model: OPENAI_MODEL,
 	})
 
 	if err != nil {
@@ -54,8 +53,7 @@ func ModOpenAIStream(prompt *string) {
 			openai.UserMessage(*prompt),
 		},
 		Seed:  openai.Int(0),
-		Model: __OPENAI_MODEL,
-		// NOTE: default Model: openai.ChatModelGPT4o,
+		Model: OPENAI_MODEL,
 	})
 
 	// optionally, an accumulator helper can be used
