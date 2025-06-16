@@ -42,30 +42,24 @@ make install
 make build
 ```
 
-run the binary with a prompt:
+Run the binary with a prompt:
 ```bash
-# run the binary
 ./sesepuh-hub --prompt "eli5 general relativity?"
 ```
 
-or for some direct usage convenience call it via `sesepuh-hub.sh` command
+Or for some direct usage convenience call it via `sesepuh-hub.sh` command
 ```bash
 ./sesepuh-hub.sh "explain needle in a haystack llm?"
 ```
 
-### Select Model and Vendor
+### Select Model
 Use the interactive selector to choose from available models:
 
 ```bash
-make select_model
+source ./select_model.sh
 ```
 
 This opens a searchable list and automatically sets `SESEPUH_HUB_MODEL` and `SESEPUH_HUB_VENDOR`.
-
-Or source the script directly:
-```bash
-source ./select_model.sh
-```
 
 Or set manually:
 ```bash
