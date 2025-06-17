@@ -45,7 +45,10 @@ func ModXAISync(prompt *string) {
 		panic(err.Error())
 	}
 
-	fmt.Println(chatCompletion.Choices[0].Message.Content)
+	content := chatCompletion.Choices[0].Message.Content
+	fmt.Println(content)
+
+	WriteRespToFile([]byte(content), "")
 }
 
 func ModXAIStream(prompt *string) {
@@ -80,7 +83,8 @@ func ModXAIStream(prompt *string) {
 
 		// it's best to use chunks after handling JustFinished events
 		if len(chunk.Choices) > 0 {
-			fmt.Print(chunk.Choices[0].Delta.Content)
+			content := chunk.Choices[0].Delta.Content
+			fmt.Print(content)
 		}
 	}
 
@@ -89,5 +93,7 @@ func ModXAIStream(prompt *string) {
 	}
 
 	// after the stream is finished, acc can be used like a ChatCompletion
-	_ = acc.Choices[0].Message.Content
+	fullContent := acc.Choices[0].Message.Content
+
+	WriteRespToFile([]byte(string(fullContent)), "")
 }

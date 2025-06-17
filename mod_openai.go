@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
@@ -15,6 +16,8 @@ var OPENAI_MODEL = GetModelToUse("OPENAI_MODEL", "gpt-4o-mini")
 var clientOpenAI = openai.NewClient(
 	option.WithAPIKey(OPENAI_API_KEY), // defaults to os.LookupEnv("OPENAI_API_KEY")
 )
+
+var resultBufOpenAI strings.Builder
 
 func ModOpenAI(prompt *string) {
 	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
@@ -42,8 +45,12 @@ func ModOpenAISync(prompt *string) {
 		panic(err.Error())
 	}
 
+	content := chatCompletion.Choices[0].Message.Content
+
 	// @NOTE: `fmt.Println` ensure write to stdout not stderr, so bash `$()` and other CLI pipe can capture
-	fmt.Println(chatCompletion.Choices[0].Message.Content)
+	fmt.Println(content)
+
+	WriteRespToFile([]byte(content), "")
 }
 
 func ModOpenAIStream(prompt *string) {
@@ -79,7 +86,9 @@ func ModOpenAIStream(prompt *string) {
 		// it's best to use chunks after handling JustFinished events
 		if len(chunk.Choices) > 0 {
 			// @NOTE: `fmt.Print` ensure write to stdout not stderr, so bash `$()` and other CLI pipe can capture
-			fmt.Print(chunk.Choices[0].Delta.Content)
+			content := chunk.Choices[0].Delta.Content
+			fmt.Print(content)
+			resultBufOpenAI.WriteString(content)
 		}
 	}
 
@@ -89,4 +98,6 @@ func ModOpenAIStream(prompt *string) {
 
 	// after the stream is finished, acc can be used like a ChatCompletion
 	_ = acc.Choices[0].Message.Content
+
+	WriteRespToFile([]byte(resultBufOpenAI.String()), "")
 }

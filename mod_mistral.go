@@ -8,11 +8,14 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var MISTRAL_API_KEY = os.Getenv("MISTRAL_API_KEY")
 var MISTRAL_MODEL = GetModelToUse("MISTRAL_MODEL", "mistral-small-latest")
 var MISTRAL_API_URL = GetEnv("MISTRAL_API_URL", "https://api.mistral.ai/v1/chat/completions")
+
+var resultBufMistral strings.Builder
 
 func ModMistral(prompt *string) {
 	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
@@ -59,7 +62,10 @@ func ModMistralSync(prompt *string) {
 		panic(err)
 	}
 
-	fmt.Println(result.Choices[0].Message.Content)
+	content := result.Choices[0].Message.Content
+	fmt.Println(content)
+
+	WriteRespToFile([]byte(content), "")
 }
 
 func ModMistralStream(prompt *string) {
@@ -116,7 +122,11 @@ func ModMistralStream(prompt *string) {
 		}
 
 		if len(chunk.Choices) > 0 && chunk.Choices[0].Delta.Content != "" {
-			fmt.Print(chunk.Choices[0].Delta.Content)
+			content := chunk.Choices[0].Delta.Content
+			fmt.Print(content)
+			resultBufMistral.WriteString(content)
 		}
 	}
+
+	WriteRespToFile([]byte(resultBufMistral.String()), "")
 }

@@ -28,3 +28,33 @@ func GetEnv(key, defaultValue string) string {
 
 	return value
 }
+
+// WriteToFile writes the given content to a file
+func WriteToFile(filename string, content []byte) error {
+	file, err := os.Create(filename)
+
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	if _, err = file.Write(content); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// WriteRespToFile writes the response content to a file
+func WriteRespToFile(content []byte, filename string) error {
+	if filename == "" {
+		filename = "./.last-response.txt"
+	}
+
+	if err := WriteToFile(filename, []byte(content)); err != nil {
+		return err
+	}
+
+	return nil
+}
