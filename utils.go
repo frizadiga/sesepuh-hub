@@ -1,6 +1,9 @@
 package main
 
-import "os"
+import (
+	"os"
+	"path/filepath"
+)
 
 // GetModelToUse returns the model name to use based on environment variables
 func GetModelToUse(envVarName, defaultModel string) string {
@@ -49,7 +52,14 @@ func WriteToFile(filename string, content []byte) error {
 // WriteRespToFile writes the response content to a file
 func WriteRespToFile(content []byte, filename string) error {
 	if filename == "" {
-		filename = "./.last-response.txt"
+		// Get directory where the binary is located
+		exePath, err := os.Executable()
+		if err != nil {
+			return err
+		}
+
+		exeDir := filepath.Dir(exePath)
+		filename = filepath.Join(exeDir, ".response.txt")
 	}
 
 	if err := WriteToFile(filename, []byte(content)); err != nil {
