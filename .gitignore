@@ -32,3 +32,6 @@ sesepuh-hub
 
 # Textify generated file
 *.textify.txt
+
+# last response file
+.last-response.json
