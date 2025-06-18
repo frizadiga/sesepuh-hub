@@ -91,14 +91,6 @@ func ModGoogleStream(prompt *string) {
 			log.Fatal(err)
 		}
 
-		// if resp.Candidates != nil {
-		// 	for _, c := range resp.Candidates {
-		// 		for _, k := range c.Content.Parts {
-		// 			fmt.Print(k.(genai.Text))
-		// 		}
-		// 	}
-		// }
-
 		if resp.Candidates != nil {
 			for _, c := range resp.Candidates {
 				for _, part := range c.Content.Parts {

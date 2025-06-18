@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -10,19 +11,33 @@ import (
 var OLLAMA_MODEL = GetModelToUse("OLLAMA_MODEL", "deepseek-coder")
 var resultBufOllama strings.Builder
 
-// func ModOllama(prompt *string) {
-// 	cmd := exec.Command("ollama", "run", OLLAMA_MODEL, *prompt)
-//
-// 	output, err := cmd.Output()
-// 	if err != nil {
-// 		log.Fatal("failed to run ollama: %w", err)
-// 	}
-//
-// 	fmt.Println(string(output))
-// 	WriteRespToFile(output, "")
-// }
-
 func ModOllama(prompt *string) {
+	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
+		fmt.Printf("\nOllama model: %s\n\n", OLLAMA_MODEL)
+	}
+
+	isStreaming := GetEnv("SESEPUH_HUB_STREAMING", "0")
+
+	if isStreaming == "1" {
+		ModOllamaStream(prompt)
+	} else {
+		ModOllamaSync(prompt)
+	}
+}
+
+func ModOllamaSync(prompt *string) {
+	cmd := exec.Command("ollama", "run", OLLAMA_MODEL, *prompt)
+
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatal("failed to run ollama: %w", err)
+	}
+
+	fmt.Print(string(output))
+	WriteRespToFile(output, "")
+}
+
+func ModOllamaStream(prompt *string) {
 	cmd := exec.Command("ollama", "run", OLLAMA_MODEL, *prompt)
 
 	stdout, err := cmd.StdoutPipe()
@@ -39,8 +54,10 @@ func ModOllama(prompt *string) {
 		n, err := stdout.Read(buffer)
 		if n > 0 {
 			text := string(buffer[:n])
-			fmt.Print(text)
-			resultBufOllama.WriteString(text)
+			if text != "\n" && text != "" {
+				fmt.Print(text)
+				resultBufOllama.WriteString(text)
+			}
 		}
 		if err != nil {
 			break
@@ -51,6 +68,5 @@ func ModOllama(prompt *string) {
 		log.Fatal("ollama command failed: %w", err)
 	}
 
-	fmt.Println() // add newline after stream ends
 	WriteRespToFile([]byte(resultBufOllama.String()), "")
 }
