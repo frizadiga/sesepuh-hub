@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/iterator"
@@ -13,6 +14,7 @@ import (
 
 var GEMINI_API_KEY = os.Getenv("GEMINI_API_KEY")
 var GOOGLE_MODEL = GetModelToUse("GOOGLE_MODEL", "gemini-2.0-flash")
+var resultBufGoogle strings.Builder
 
 func ModGoogle(prompt *string) {
 	if os.Getenv("SESEPUH_HUB_RES_ONLY") != "1" {
@@ -47,12 +49,20 @@ func ModGoogleSync(prompt *string) {
 	}
 
 	if resp.Candidates != nil {
-		for _, v := range resp.Candidates {
-			for _, k := range v.Content.Parts {
-				fmt.Println(k.(genai.Text))
+		for _, c := range resp.Candidates {
+			for _, part := range c.Content.Parts {
+				switch p := part.(type) {
+				case genai.Text:
+					fmt.Println(p)
+					resultBufGoogle.WriteString(string(p))
+				default:
+					continue // skip non-text parts
+				}
 			}
 		}
 	}
+
+	WriteRespToFile([]byte(resultBufGoogle.String()), "")
 }
 
 func ModGoogleStream(prompt *string) {
@@ -81,13 +91,20 @@ func ModGoogleStream(prompt *string) {
 			log.Fatal(err)
 		}
 
-		// print resp to human-readable format
 		if resp.Candidates != nil {
-			for _, v := range resp.Candidates {
-				for _, k := range v.Content.Parts {
-					fmt.Print(k.(genai.Text))
+			for _, c := range resp.Candidates {
+				for _, part := range c.Content.Parts {
+					switch p := part.(type) {
+					case genai.Text:
+						fmt.Print(p)
+						resultBufGoogle.WriteString(string(p))
+					default:
+						continue // skip non-text parts
+					}
 				}
 			}
 		}
 	}
+
+	WriteRespToFile([]byte(resultBufGoogle.String()), "")
 }

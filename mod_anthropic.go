@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/anthropics/anthropic-sdk-go" // imported as anthropic
 	"github.com/anthropics/anthropic-sdk-go/option"
@@ -15,6 +16,8 @@ var ANTHROPIC_MODEL = GetModelToUse("ANTHROPIC_MODEL", "claude-sonnet-4-20250514
 var clientAnthropic = anthropic.NewClient(
 	option.WithAPIKey(ANTHROPIC_API_KEY), // defaults to os.LookupEnv("ANTHROPIC_API_KEY")
 )
+
+var resultBufAnthropic strings.Builder
 
 func ModAnthropic(prompt *string) {
 	fmt.Printf("\nAnthropic model: %s\n\n", ANTHROPIC_MODEL)
@@ -42,7 +45,10 @@ func ModAnthropicSync(prompt *string) {
 		panic(err.Error())
 	}
 
-	fmt.Printf("%+v\n", message.Content)
+	content := message.Content[0].AsAny().(anthropic.TextBlock).Text
+	fmt.Println(content)
+
+	WriteRespToFile([]byte(content), "")
 }
 
 func ModAnthropicStream(prompt *string) {
@@ -67,7 +73,9 @@ func ModAnthropicStream(prompt *string) {
 		case anthropic.ContentBlockDeltaEvent:
 			switch deltaVariant := eventVariant.Delta.AsAny().(type) {
 			case anthropic.TextDelta:
-				print(deltaVariant.Text)
+				text := deltaVariant.Text
+				fmt.Print(text)
+				resultBufAnthropic.WriteString(text)
 			}
 
 		}
@@ -78,4 +86,6 @@ func ModAnthropicStream(prompt *string) {
 	}
 
 	fmt.Println() // add newline after the stream ends
+
+	WriteRespToFile([]byte(resultBufAnthropic.String()), "")
 }
