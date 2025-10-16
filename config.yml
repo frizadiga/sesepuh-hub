@@ -20,6 +20,9 @@ models:
   - name: gemini-2.0-flash
     vendor: google
 
+  - name: gemini-2.5-flash
+    vendor: google
+
   - name: mistral-small-latest
     vendor: mistral
 

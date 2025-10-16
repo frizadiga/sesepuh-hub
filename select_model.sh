@@ -9,13 +9,13 @@ __self_path_file=$(readlink -f "$0")
 __self_path_dir=$(dirname "${__self_path_file}")
 
 fn_select_model() {
-  local model_name=$(yq -r '.models[].name' "${__self_path_dir}/enums.yml" | fzf) || exit 1
+  local model_name=$(yq -r '.models[].name' "${__self_path_dir}/config.yml" | fzf) || exit 1
 
   # query once
-  model_data=$(yq '.models[] | select(.name == "'"${model_name}"'")' "${__self_path_dir}/enums.yml")
+  model_data=$(yq '.models[] | select(.name == "'"${model_name}"'")' "${__self_path_dir}/config.yml")
 
   if [ -z "${model_data}" ]; then
-    echo "Error: Model '${model_name}' not found in enums.yml" >&2
+    echo "Error: Model '${model_name}' not found in config.yml" >&2
     exit 1
   fi
 
