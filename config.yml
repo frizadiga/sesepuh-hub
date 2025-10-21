@@ -29,5 +29,8 @@ models:
   - name: grok-2-latest
     vendor: xai
 
+  - name: grok-4-fast-reasoning
+    vendor: xai
+
   - name: deepseek-coder
     vendor: ollama # Don't confuse: sesepuh vendor is the engine that runs the model, not the entity that created it.
