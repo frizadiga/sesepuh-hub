@@ -33,6 +33,12 @@ fn_select_model() {
 
   export SESEPUH_HUB_MODEL="${model}"
   export SESEPUH_HUB_VENDOR="${vendor}"
+
+  if [[ "$*" == *"--consume-output"* ]]; then
+    echo "SESEPUH_HUB_MODEL=${model}"
+    echo "SESEPUH_HUB_VENDOR=${vendor}"
+    return 0
+  fi
 }
 
 fn_select_model "$@"
