@@ -8,6 +8,9 @@ models:
   - name: gpt-3.5-turbo
     vendor: openai
 
+  - name: gpt-5-codex
+    vendor: openai
+
   - name: claude-sonnet-4-20250514
     vendor: anthropic
 
