@@ -37,3 +37,6 @@ models:
 
   - name: deepseek-coder
     vendor: ollama # Don't confuse: sesepuh vendor is the engine that runs the model, not the entity that created it.
+
+  - name: gemma4:e2b
+    vendor: ollama
